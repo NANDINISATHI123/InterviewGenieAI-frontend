@@ -1,0 +1,1 @@
+export const API_URL = "https://interviewgenieai-backend-v67z.onrender.com";
