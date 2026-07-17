@@ -1,324 +1,64 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import FeatureCard from "./FeatureCard";
 
+export default function Features() {
+  const features = [
+    {
+      title: "🤖 AI Resume Analysis",
+      description:
+        "Upload your resume and receive detailed AI-powered feedback with improvement suggestions.",
+    },
+    {
+      title: "📊 ATS Score",
+      description:
+        "Check how well your resume matches Applicant Tracking Systems and improve your chances.",
+    },
+    {
+      title: "❓ AI Interview Questions",
+      description:
+        "Generate personalized HR and technical interview questions based on your resume.",
+    },
+    {
+      title: "🎤 Mock Interview",
+      description:
+        "Practice interview rounds with AI and receive instant feedback on your answers.",
+    },
+    {
+      title: "🎙️ Voice Interview",
+      description:
+        "Answer interview questions using your voice and get AI-powered evaluation.",
+    },
+    {
+      title: "📈 Progress Analytics",
+      description:
+        "Track your interview practice, resume uploads, and overall preparation progress.",
+    },
+  ];
 
-import Layout from "../components/Layout";
+  return (
+    <section className="py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-6">
 
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
+        <div className="text-center mb-14">
+          <h2 className="text-5xl font-bold text-gray-800">
+            Powerful Features
+          </h2>
 
-import Dashboard from "../pages/Dashboard";
-import Analytics from "../pages/Analytics";
-
-import ResumeUpload from "../pages/ResumeUpload";
-import ResumeHistory from "../pages/ResumeHistory";
-
-import ATSScore from "../pages/ATSScore";
-
-import InterviewQuestions from "../pages/InterviewQuestions";
-
-import MockInterview from "../pages/MockInterview";
-
-import InterviewHistory from "../pages/InterviewHistory";
-
-import VoiceInterview from "../pages/VoiceInterview";
-
-import Profile from "../pages/Profile";
-
-
-import ProtectedRoute from "../components/ProtectedRoute";
-
-
-
-function NotFound(){
-
-    return (
-
-        <div className="p-10">
-
-            <h1 className="text-3xl font-bold">
-
-                404 - Page Not Found
-
-            </h1>
-
+          <p className="text-gray-600 text-lg mt-4">
+            Everything you need to crack your dream job interviews.
+          </p>
         </div>
 
-    );
-
-}
-
-
-
-
-export default function AppRoutes(){
-
-
-    return (
-
-        <BrowserRouter>
-
-
-            <Layout>
-
-
-                <Routes>
-
-
-
-                    {/* Public Routes */}
-
-
-                    <Route
-
-                        path="/"
-
-                        element={<Home />}
-
-                    />
-
-
-
-                    <Route
-
-                        path="/login"
-
-                        element={<Login />}
-
-                    />
-
-
-
-                    <Route
-
-                        path="/register"
-
-                        element={<Register />}
-
-                    />
-
-
-
-
-
-                    {/* Protected Routes */}
-
-
-
-                    <Route
-
-                        path="/dashboard"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <Dashboard />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/upload"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <ResumeUpload />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/resume-history"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <ResumeHistory />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/ats-score"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <ATSScore />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/interview-questions"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <InterviewQuestions />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/mock-interview"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <MockInterview />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/voice-interview"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <VoiceInterview />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/interview-history"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <InterviewHistory />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-
-
-
-
-                    <Route
-
-                        path="/profile"
-
-                        element={
-
-                            <ProtectedRoute>
-
-                                <Profile />
-
-                            </ProtectedRoute>
-
-                        }
-
-                    />
-
-                     <Route
-
-path="/analytics"
-
-element={
-
-<ProtectedRoute>
-
-<Analytics />
-
-</ProtectedRoute>
-
-}
-
-/>
-
-
-
-                    {/* 404 */}
-
-                    <Route
-
-                        path="*"
-
-                        element={<NotFound />}
-
-                    />
-
-
-
-                </Routes>
-
-
-            </Layout>
-
-
-        </BrowserRouter>
-
-    );
-
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature) => (
+            <FeatureCard
+              key={feature.title}
+              title={feature.title}
+              description={feature.description}
+            />
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
 }
