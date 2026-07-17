@@ -24,7 +24,7 @@ export default function MockInterview() {
         try {
 
             const response = await fetch(
-                "http://127.0.0.1:8000/evaluate-answer",
+                "https://interviewgenieai-backend-v67z.onrender.com/evaluate-answer",
                 {
                     method: "POST",
 

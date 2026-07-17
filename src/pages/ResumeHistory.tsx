@@ -6,7 +6,7 @@ export default function ResumeHistory() {
 
     useEffect(() => {
 
-        fetch("http://127.0.0.1:8000/resume-history")
+       fetch("https://interviewgenieai-backend-v67z.onrender.com/resume-history")
             .then(res => res.json())
             .then(data => setResumes(data));
 

@@ -14,7 +14,7 @@ export default function InterviewHistory(){
 
 
         fetch(
-            `http://127.0.0.1:8000/interview-history/${email}`
+            `https://interviewgenieai-backend-v67z.onrender.com/interview-history/${email}`
         )
         .then(res=>res.json())
         .then(data=>{

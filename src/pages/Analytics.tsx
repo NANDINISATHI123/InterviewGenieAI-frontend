@@ -44,7 +44,7 @@ useEffect(()=>{
 
 
     fetch(
-        `http://127.0.0.1:8000/analytics/${email}`
+        `https://interviewgenieai-backend-v67z.onrender.com/analytics/${email}`
     )
 
     .then(res=>res.json())

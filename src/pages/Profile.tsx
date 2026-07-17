@@ -14,7 +14,7 @@ export default function Profile(){
 
 
         fetch(
-            `http://127.0.0.1:8000/profile/${email}`
+            `https://interviewgenieai-backend-v67z.onrender.com/profile/${email}`
         )
         .then(res=>res.json())
         .then(data=>{
