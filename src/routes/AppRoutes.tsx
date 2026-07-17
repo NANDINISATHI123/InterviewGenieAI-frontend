@@ -1,64 +1,60 @@
-import FeatureCard from "./FeatureCard";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-export default function Features() {
-  const features = [
-    {
-      title: "🤖 AI Resume Analysis",
-      description:
-        "Upload your resume and receive detailed AI-powered feedback with improvement suggestions.",
-    },
-    {
-      title: "📊 ATS Score",
-      description:
-        "Check how well your resume matches Applicant Tracking Systems and improve your chances.",
-    },
-    {
-      title: "❓ AI Interview Questions",
-      description:
-        "Generate personalized HR and technical interview questions based on your resume.",
-    },
-    {
-      title: "🎤 Mock Interview",
-      description:
-        "Practice interview rounds with AI and receive instant feedback on your answers.",
-    },
-    {
-      title: "🎙️ Voice Interview",
-      description:
-        "Answer interview questions using your voice and get AI-powered evaluation.",
-    },
-    {
-      title: "📈 Progress Analytics",
-      description:
-        "Track your interview practice, resume uploads, and overall preparation progress.",
-    },
-  ];
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import Register from "../pages/Register";
+import Dashboard from "../pages/Dashboard";
+import ResumeUpload from "../pages/ResumeUpload";
+import ATSScore from "../pages/ATSScore";
+import InterviewQuestions from "../pages/InterviewQuestions";
+import MockInterview from "../pages/MockInterview";
+import VoiceInterview from "../pages/VoiceInterview";
+import InterviewHistory from "../pages/InterviewHistory";
+import ResumeHistory from "../pages/ResumeHistory";
+import Analytics from "../pages/Analytics";
+import Profile from "../pages/Profile";
+import NotFound from "../pages/NotFound";
 
+import ProtectedRoute from "../components/ProtectedRoute";
+import Layout from "../components/Layout";
+
+export default function AppRoutes() {
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <BrowserRouter>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        <div className="text-center mb-14">
-          <h2 className="text-5xl font-bold text-gray-800">
-            Powerful Features
-          </h2>
+        {/* Protected Routes */}
+        <Route
+          element={
+            <ProtectedRoute>
+              <Layout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/upload" element={<ResumeUpload />} />
+          <Route path="/ats-score" element={<ATSScore />} />
+          <Route
+            path="/interview-questions"
+            element={<InterviewQuestions />}
+          />
+          <Route path="/mock-interview" element={<MockInterview />} />
+          <Route path="/voice-interview" element={<VoiceInterview />} />
+          <Route
+            path="/interview-history"
+            element={<InterviewHistory />}
+          />
+          <Route path="/resume-history" element={<ResumeHistory />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/profile" element={<Profile />} />
+        </Route>
 
-          <p className="text-gray-600 text-lg mt-4">
-            Everything you need to crack your dream job interviews.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature) => (
-            <FeatureCard
-              key={feature.title}
-              title={feature.title}
-              description={feature.description}
-            />
-          ))}
-        </div>
-
-      </div>
-    </section>
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
