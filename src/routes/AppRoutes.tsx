@@ -17,6 +17,15 @@ import NotFound from "../pages/NotFound";
 
 import ProtectedRoute from "../components/ProtectedRoute";
 import Layout from "../components/Layout";
+import ATSScore from "./pages/ATSScore";
+import InterviewQuestions from "./pages/InterviewQuestions";
+
+<Route
+    path="/interview"
+    element={<InterviewQuestions />}
+/>
+
+<Route path="/ats" element={<ATSScore />} />
 
 export default function AppRoutes() {
   return (
@@ -52,6 +61,9 @@ export default function AppRoutes() {
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/profile" element={<Profile />} />
         </Route>
+        import ResumeUpload from "./pages/ResumeUpload";
+
+<Route path="/upload" element={<ResumeUpload />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

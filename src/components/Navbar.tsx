@@ -1,104 +1,26 @@
-import { useNavigate } from "react-router-dom";
+import { Bell, Search } from "lucide-react";
 
+const Navbar = () => {
+  return (
+    <header className="flex items-center justify-between bg-white px-8 py-4 shadow">
+      <div className="flex items-center gap-3">
+        <Search />
+        <input
+          className="rounded-lg border p-2 outline-none"
+          placeholder="Search..."
+        />
+      </div>
 
-export default function Navbar(){
+      <div className="flex items-center gap-6">
+        <Bell />
+        <img
+          src="https://i.pravatar.cc/40"
+          className="h-10 w-10 rounded-full"
+          alt="Profile"
+        />
+      </div>
+    </header>
+  );
+};
 
-    const navigate = useNavigate();
-
-
-    const email = localStorage.getItem("email");
-
-
-    const logout = ()=>{
-
-        localStorage.removeItem("token");
-
-        localStorage.removeItem("email");
-
-        navigate("/login");
-
-    };
-
-
-    return (
-
-        <nav className="bg-white shadow-md px-8 py-4 flex justify-between items-center">
-
-
-            <div
-            className="cursor-pointer"
-            onClick={()=>navigate("/dashboard")}
-            >
-
-                <h1 className="text-2xl font-bold text-blue-600">
-
-                    InterviewGenieAI 🚀
-
-                </h1>
-
-            </div>
-
-
-
-            <div className="flex items-center gap-6">
-
-
-                <button
-
-                onClick={()=>navigate("/dashboard")}
-
-                className="text-gray-700 hover:text-blue-600"
-
-                >
-
-                    Dashboard
-
-                </button>
-
-
-
-                <button
-
-                onClick={()=>navigate("/profile")}
-
-                className="text-gray-700 hover:text-blue-600"
-
-                >
-
-                    Profile
-
-                </button>
-
-
-
-
-                <span className="text-sm text-gray-500">
-
-                    {email}
-
-                </span>
-
-
-
-
-                <button
-
-                onClick={logout}
-
-                className="bg-red-500 text-white px-4 py-2 rounded-lg"
-
-                >
-
-                    Logout
-
-                </button>
-
-
-            </div>
-
-
-        </nav>
-
-    );
-
-}
+export default Navbar;
