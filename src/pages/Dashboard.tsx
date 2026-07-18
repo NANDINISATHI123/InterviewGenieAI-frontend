@@ -1,145 +1,349 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import DashboardLayout from "../components/layout/DashboardLayout";
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
+
+import PageTransition from "../components/PageTransition";
+import AnimatedCard from "../components/AnimatedCard";
+
+
 import {
   FileText,
-  Brain,
-  BarChart3,
-  MessageSquare,
+  BrainCircuit,
+  Trophy,
+  TrendingUp
 } from "lucide-react";
 
-const Dashboard = () => {
-  const [analytics, setAnalytics] = useState({
-    total_resumes: 0,
-    total_interviews: 0,
-    average_score: 0,
-  });
 
-  useEffect(() => {
-    const email = localStorage.getItem("email");
+export default function Dashboard(){
 
-    if (!email) return;
 
-    axios
-      .get(
-        `https://interviewgenieai-backend-v67z.onrender.com/analytics/${email}`
-      )
-      .then((res) => setAnalytics(res.data))
-      .catch(console.log);
-  }, []);
+return(
 
-  return (
-    <DashboardLayout>
+<PageTransition>
 
-      <div className="mb-8">
+<div className="flex min-h-screen bg-slate-100">
 
-        <h1 className="text-4xl font-bold">
-          Welcome Back 👋
-        </h1>
 
-        <p className="text-gray-500 mt-2">
-          Here's your interview preparation progress.
-        </p>
+<Sidebar/>
 
-      </div>
 
-      <div className="grid md:grid-cols-4 gap-6">
+<div className="flex-1">
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
 
-          <FileText className="text-indigo-600 mb-4" size={35} />
+<Navbar/>
 
-          <h3 className="text-gray-500">
-            Resume Uploads
-          </h3>
 
-          <p className="text-4xl font-bold mt-3">
-            {analytics.total_resumes}
-          </p>
+<div className="p-8 max-w-7xl mx-auto">
 
-        </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+<h1 className="text-4xl font-bold">
 
-          <MessageSquare className="text-green-600 mb-4" size={35} />
+Welcome to InterviewGenie AI 🚀
 
-          <h3 className="text-gray-500">
-            Interviews
-          </h3>
+</h1>
 
-          <p className="text-4xl font-bold mt-3">
-            {analytics.total_interviews}
-          </p>
 
-        </div>
+<p className="text-gray-500 mt-2">
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+Prepare smarter with AI powered interview tools.
 
-          <Brain className="text-orange-500 mb-4" size={35} />
+</p>
 
-          <h3 className="text-gray-500">
-            Average Score
-          </h3>
 
-          <p className="text-4xl font-bold mt-3">
-            {analytics.average_score}%
-          </p>
 
-        </div>
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
 
-          <BarChart3 className="text-pink-500 mb-4" size={35} />
+<div className="grid md:grid-cols-4 gap-6 mt-10">
 
-          <h3 className="text-gray-500">
-            AI Ready
-          </h3>
 
-          <p className="text-4xl font-bold mt-3">
-            🚀
-          </p>
 
-        </div>
+<AnimatedCard>
 
-      </div>
+<Card
 
-      <div className="grid md:grid-cols-2 gap-8 mt-10">
+icon={<FileText/>}
 
-        <div className="bg-white rounded-2xl shadow-lg p-6">
+title="Resumes Uploaded"
 
-          <h2 className="text-xl font-bold mb-4">
-            Recent Activity
-          </h2>
+value="12"
 
-          <ul className="space-y-4">
+/>
 
-            <li>📄 Resume Uploaded</li>
+</AnimatedCard>
 
-            <li>🤖 ATS Score Generated</li>
 
-            <li>🎤 Mock Interview Completed</li>
 
-          </ul>
 
-        </div>
+<AnimatedCard>
 
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl shadow-lg text-white p-8">
+<Card
 
-          <h2 className="text-2xl font-bold">
-            Interview Tip
-          </h2>
+icon={<BrainCircuit/>}
 
-          <p className="mt-5 leading-8">
-            Practice explaining your projects using the STAR
-            method and always mention measurable outcomes.
-          </p>
+title="Mock Interviews"
 
-        </div>
+value="25"
 
-      </div>
+/>
 
-    </DashboardLayout>
-  );
-};
+</AnimatedCard>
 
-export default Dashboard;
+
+
+
+
+<AnimatedCard>
+
+<Card
+
+icon={<TrendingUp/>}
+
+title="ATS Score"
+
+value="86%"
+
+/>
+
+</AnimatedCard>
+
+
+
+
+
+
+<AnimatedCard>
+
+<Card
+
+icon={<Trophy/>}
+
+title="Best Score"
+
+value="95%"
+
+/>
+
+</AnimatedCard>
+
+
+
+</div>
+
+
+
+
+
+<div className="mt-10 grid lg:grid-cols-2 gap-8">
+
+
+<AnimatedCard>
+
+<div className="bg-white rounded-3xl shadow-xl p-8">
+
+
+<h2 className="text-2xl font-bold">
+
+Quick Actions
+
+</h2>
+
+
+<div className="mt-6 space-y-4">
+
+
+<button className="w-full bg-indigo-600 text-white py-3 rounded-xl">
+
+Upload Resume
+
+</button>
+
+
+<button className="w-full bg-green-600 text-white py-3 rounded-xl">
+
+Start Mock Interview
+
+</button>
+
+
+<button className="w-full bg-black text-white py-3 rounded-xl">
+
+Generate Questions
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+
+
+
+<AnimatedCard>
+
+<div className="bg-white rounded-3xl shadow-xl p-8">
+
+
+<h2 className="text-2xl font-bold">
+
+Preparation Progress
+
+</h2>
+
+
+<div className="mt-6">
+
+
+<Progress
+
+name="DSA"
+
+value={80}
+
+/>
+
+
+<Progress
+
+name="Resume"
+
+value={90}
+
+/>
+
+
+<Progress
+
+name="Interview"
+
+value={70}
+
+/>
+
+
+
+</div>
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+</PageTransition>
+
+)
+
+}
+
+
+
+
+
+function Card({
+icon,
+title,
+value
+}:any){
+
+return(
+
+<div className="bg-white rounded-3xl shadow-xl p-6">
+
+
+<div className="text-indigo-600">
+
+{icon}
+
+</div>
+
+
+<p className="text-gray-500 mt-4">
+
+{title}
+
+</p>
+
+
+<h2 className="text-3xl font-bold mt-2">
+
+{value}
+
+</h2>
+
+
+</div>
+
+)
+
+}
+
+
+
+
+
+function Progress({
+
+name,
+
+value
+
+}:any){
+
+return(
+
+<div className="mb-5">
+
+
+<div className="flex justify-between">
+
+<span>{name}</span>
+
+<span>{value}%</span>
+
+</div>
+
+
+
+<div className="bg-gray-200 h-3 rounded-full mt-2">
+
+
+<div
+
+className="bg-indigo-600 h-3 rounded-full"
+
+style={{
+
+width:`${value}%`
+
+}}
+
+/>
+
+
+</div>
+
+
+</div>
+
+)
+
+}

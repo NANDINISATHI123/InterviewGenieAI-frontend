@@ -1,119 +1,522 @@
 import { useState } from "react";
-import axios from "axios";
-import DashboardLayout from "../components/layout/DashboardLayout";
-import { UploadCloud, Copy, Sparkles } from "lucide-react";
 
-const InterviewQuestions = () => {
-  const [file, setFile] = useState<File | null>(null);
-  const [questions, setQuestions] = useState("");
-  const [loading, setLoading] = useState(false);
+import api from "../services/api";
 
-  const generateQuestions = async () => {
-    if (!file) {
-      alert("Select Resume");
-      return;
-    }
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
-    const formData = new FormData();
-    formData.append("resume", file);
+import PageTransition from "../components/PageTransition";
+import AnimatedCard from "../components/AnimatedCard";
 
-    try {
-      setLoading(true);
 
-      const response = await axios.post(
-        "https://interviewgenieai-backend-v67z.onrender.com/generate-questions",
-        formData
-      );
+import {
+  Sparkles,
+  Loader2,
+  Copy,
+  Search,
+  BrainCircuit
+} from "lucide-react";
 
-      setQuestions(response.data.questions);
-    } catch (error) {
-      alert("Unable to Generate Questions");
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
-  const copyQuestions = () => {
-    navigator.clipboard.writeText(questions);
-    alert("Copied!");
-  };
 
-  return (
-    <DashboardLayout>
+export default function InterviewQuestions(){
 
-      <h1 className="text-3xl font-bold mb-8">
-        AI Interview Questions
-      </h1>
 
-      <div className="bg-white rounded-2xl shadow-lg p-8">
+const [file,setFile]=useState<File | null>(null);
 
-        <div className="border-2 border-dashed border-indigo-500 rounded-xl p-10 text-center">
+const [questions,setQuestions]=useState("");
 
-          <UploadCloud
-            size={60}
-            className="mx-auto text-indigo-600"
-          />
+const [loading,setLoading]=useState(false);
 
-          <h2 className="mt-5 text-xl font-semibold">
-            Upload Resume
-          </h2>
+const [search,setSearch]=useState("");
 
-          <input
-            type="file"
-            accept=".pdf"
-            className="mt-5"
-            onChange={(e) =>
-              setFile(e.target.files?.[0] || null)
-            }
-          />
 
-          <button
-            onClick={generateQuestions}
-            className="mt-6 bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-3 rounded-xl"
-          >
-            {loading ? "Generating..." : "Generate Questions"}
-          </button>
 
-        </div>
 
-        {questions && (
 
-          <div className="mt-10">
+async function generateQuestions(){
 
-            <div className="flex justify-between items-center mb-6">
 
-              <h2 className="text-2xl font-bold flex items-center gap-2">
-                <Sparkles />
-                AI Generated Questions
-              </h2>
+if(!file){
 
-              <button
-                onClick={copyQuestions}
-                className="flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-lg"
-              >
-                <Copy size={18} />
-                Copy
-              </button>
+alert("Please upload resume");
 
-            </div>
+return;
 
-            <div className="bg-gray-50 rounded-xl p-6">
+}
 
-              <pre className="whitespace-pre-wrap text-gray-800 leading-8">
-                {questions}
-              </pre>
 
-            </div>
 
-          </div>
+const formData=new FormData();
 
-        )}
 
-      </div>
+formData.append(
+"resume",
+file
+);
 
-    </DashboardLayout>
-  );
-};
 
-export default InterviewQuestions;
+
+setLoading(true);
+
+
+
+try{
+
+
+const response = await api.post(
+
+"/generate-questions",
+
+formData,
+
+{
+
+headers:{
+
+"Content-Type":
+"multipart/form-data"
+
+}
+
+}
+
+);
+
+
+
+setQuestions(
+response.data.questions
+);
+
+
+}
+
+catch(error){
+
+console.log(error);
+
+alert(
+"Unable to generate questions"
+);
+
+
+}
+
+finally{
+
+
+setLoading(false);
+
+
+}
+
+
+}
+
+
+
+
+
+
+function copyText(){
+
+
+navigator.clipboard.writeText(
+questions
+);
+
+
+alert(
+"Questions copied"
+);
+
+
+}
+
+
+
+
+
+
+
+return(
+
+
+<PageTransition>
+
+
+<div className="flex min-h-screen bg-slate-100">
+
+
+<Sidebar/>
+
+
+<div className="flex-1">
+
+
+<Navbar/>
+
+
+<div className="max-w-7xl mx-auto p-8">
+
+
+
+
+
+<h1 className="text-4xl font-bold">
+
+AI Interview Questions Generator
+
+</h1>
+
+
+<p className="text-gray-500 mt-2">
+
+Generate interview questions based on your resume.
+
+</p>
+
+
+
+
+
+
+
+{/* Upload Section */}
+
+
+
+<AnimatedCard>
+
+
+<div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
+
+
+
+<div className="flex gap-3 items-center">
+
+
+<BrainCircuit
+
+className="text-indigo-600"
+
+/>
+
+
+<h2 className="text-2xl font-bold">
+
+Upload Resume
+
+</h2>
+
+
+</div>
+
+
+
+
+<div className="mt-6 flex flex-col md:flex-row gap-5">
+
+
+<input
+
+
+type="file"
+
+
+accept=".pdf"
+
+
+onChange={(e)=>{
+
+if(e.target.files){
+
+setFile(
+e.target.files[0]
+)
+
+}
+
+}}
+
+
+className="border p-3 rounded-xl"
+
+/>
+
+
+
+
+<button
+
+
+onClick={generateQuestions}
+
+
+disabled={loading}
+
+
+className="bg-indigo-600 text-white px-8 py-3 rounded-xl flex items-center gap-3"
+
+
+
+>
+
+
+{
+
+
+loading ?
+
+<>
+
+<Loader2 className="animate-spin"/>
+
+Generating...
+
+</>
+
+
+:
+
+<>
+
+<Sparkles/>
+
+Generate
+
+</>
+
+
+}
+
+
+</button>
+
+
+
+</div>
+
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+
+
+
+
+
+
+
+{/* Search + Questions */}
+
+
+
+
+{
+
+questions &&
+
+
+<AnimatedCard>
+
+
+<div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
+
+
+
+<div className="flex flex-col md:flex-row justify-between gap-5">
+
+
+
+<h2 className="text-2xl font-bold">
+
+Generated Questions
+
+</h2>
+
+
+
+
+<button
+
+
+onClick={copyText}
+
+
+className="bg-black text-white px-5 py-3 rounded-xl flex gap-2 items-center"
+
+
+>
+
+
+<Copy/>
+
+Copy All
+
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div className="flex items-center border rounded-xl px-4 mt-6">
+
+
+<Search/>
+
+<input
+
+
+placeholder="Search questions..."
+
+
+value={search}
+
+
+onChange={(e)=>
+
+setSearch(e.target.value)
+
+}
+
+
+className="w-full p-3 outline-none"
+
+/>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div className="mt-8 space-y-5">
+
+
+
+{
+
+questions
+
+.split("\n")
+
+.filter((line)=>
+
+line.toLowerCase()
+
+.includes(
+
+search.toLowerCase()
+
+)
+
+)
+
+
+.map((item,index)=>(
+
+
+<div
+
+
+key={index}
+
+
+className="border rounded-2xl p-5 hover:shadow-lg transition"
+
+
+
+>
+
+
+<div className="flex justify-between">
+
+
+<h3 className="font-semibold">
+
+
+Question {index+1}
+
+
+</h3>
+
+
+<span className="text-indigo-600">
+
+AI
+
+</span>
+
+
+</div>
+
+
+
+<p className="mt-3 text-gray-700">
+
+{item}
+
+</p>
+
+
+
+</div>
+
+
+
+))
+
+
+}
+
+
+
+</div>
+
+
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+}
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</PageTransition>
+
+
+)
+
+}

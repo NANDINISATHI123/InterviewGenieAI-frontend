@@ -1,202 +1,454 @@
 import { useState } from "react";
 
-export default function MockInterview() {
+import api from "../services/api";
 
-    const [question, setQuestion] = useState("");
-    const [answer, setAnswer] = useState("");
-    const [feedback, setFeedback] = useState("");
-    const [loading, setLoading] = useState(false);
+import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 
+import PageTransition from "../components/PageTransition";
+import AnimatedCard from "../components/AnimatedCard";
 
-    const evaluateAnswer = async () => {
 
-        if (!question || !answer) {
+import {
+  Mic,
+  Send,
+  BrainCircuit,
+  Loader2,
+  Star,
+  CheckCircle
+} from "lucide-react";
 
-            alert("Enter question and answer");
 
-            return;
-        }
 
+export default function MockInterview(){
 
-        setLoading(true);
 
+const [question]=useState(
+"Tell me about yourself."
+);
 
-        try {
+const [answer,setAnswer]=useState("");
 
-            const response = await fetch(
-                "https://interviewgenieai-backend-v67z.onrender.com/evaluate-answer",
-                {
-                    method: "POST",
+const [feedback,setFeedback]=useState("");
 
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
+const [loading,setLoading]=useState(false);
 
-                    body: JSON.stringify({
+const [score]=useState("");
 
-                        email:
-                        localStorage.getItem("email"),
 
-                        question: question,
 
-                        answer: answer
 
-                    })
+async function submitAnswer(){
 
-                }
-            );
 
+if(!answer){
 
-            const data = await response.json();
+alert("Please enter your answer");
 
+return;
 
-            setFeedback(
-                data.feedback
-            );
+}
 
 
-        } catch(error) {
 
-            console.error(error);
+setLoading(true);
 
-            alert(
-                "Failed to evaluate answer"
-            );
 
-        }
 
+try{
 
-        setLoading(false);
 
-    };
+const email =
+localStorage.getItem("email");
 
 
 
-    return (
+const response = await api.post(
 
-        <div
-            style={{
-                padding:"40px"
-            }}
-        >
+"/evaluate-answer",
 
-            <h1>
-                🎤 AI Mock Interview
-            </h1>
+{
 
+email,
 
-            <label>
-                Interview Question
-            </label>
+question,
 
+answer
 
-            <textarea
+}
 
-                rows={3}
+);
 
-                style={{
-                    width:"100%",
-                    marginTop:"10px"
-                }}
 
-                placeholder="Enter interview question"
 
-                value={question}
+setFeedback(
+response.data.feedback
+);
 
-                onChange={(e)=>
-                    setQuestion(e.target.value)
-                }
 
-            />
 
+}
+catch(error){
 
+console.log(error);
 
-            <br/>
-            <br/>
+alert(
+"Unable to evaluate answer"
+);
 
 
+}
 
-            <label>
-                Your Answer
-            </label>
+finally{
 
 
-            <textarea
+setLoading(false);
 
-                rows={8}
 
-                style={{
-                    width:"100%",
-                    marginTop:"10px"
-                }}
+}
 
-                placeholder="Write your answer"
 
-                value={answer}
+}
 
-                onChange={(e)=>
-                    setAnswer(e.target.value)
-                }
 
-            />
 
 
 
-            <br/>
-            <br/>
+return(
 
 
+<PageTransition>
 
-            <button
-                onClick={evaluateAnswer}
-            >
 
-                Evaluate Answer
+<div className="flex min-h-screen bg-slate-100">
 
-            </button>
 
+<Sidebar/>
 
 
-            {
-                loading &&
+<div className="flex-1">
 
-                <h3>
-                    AI is evaluating...
-                </h3>
 
-            }
+<Navbar/>
 
 
+<div className="max-w-6xl mx-auto p-8">
 
-            {
-                feedback &&
 
-                <div>
 
-                    <h2>
-                        AI Feedback
-                    </h2>
+<h1 className="text-4xl font-bold">
 
+AI Mock Interview
 
-                    <pre
-                        style={{
-                            whiteSpace:"pre-wrap",
-                            background:"#f4f4f4",
-                            padding:"20px"
-                        }}
-                    >
+</h1>
 
-                        {feedback}
 
-                    </pre>
+<p className="text-gray-500 mt-2">
 
-                </div>
+Practice interviews with an AI interviewer.
 
-            }
+</p>
 
 
-        </div>
 
-    );
+
+
+{/* Interview Question */}
+
+
+
+<AnimatedCard>
+
+
+<div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
+
+
+<div className="flex items-center gap-3">
+
+
+<BrainCircuit
+
+className="text-indigo-600"
+
+/>
+
+
+<h2 className="text-2xl font-bold">
+
+Interview Question
+
+</h2>
+
+
+</div>
+
+
+
+
+<div className="bg-indigo-50 rounded-2xl p-6 mt-6">
+
+
+<p className="text-lg font-semibold">
+
+{question}
+
+</p>
+
+
+</div>
+
+
+
+
+<button
+
+className="mt-5 flex gap-2 items-center bg-indigo-600 text-white px-6 py-3 rounded-xl"
+
+>
+
+
+<Mic/>
+
+Start Speaking
+
+
+</button>
+
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+
+
+
+
+
+{/* Answer Section */}
+
+
+
+<AnimatedCard>
+
+
+<div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
+
+
+<h2 className="text-2xl font-bold">
+
+Your Answer
+
+</h2>
+
+
+
+
+<textarea
+
+
+value={answer}
+
+
+onChange={(e)=>
+
+setAnswer(e.target.value)
+
+}
+
+
+placeholder="Type your answer here..."
+
+
+className="w-full h-48 border rounded-2xl p-5 mt-5 resize-none"
+
+
+
+/>
+
+
+
+
+<button
+
+
+onClick={submitAnswer}
+
+
+disabled={loading}
+
+
+className="mt-6 bg-green-600 text-white px-8 py-3 rounded-xl flex gap-3 items-center"
+
+
+
+>
+
+
+{
+
+
+loading ?
+
+<>
+
+<Loader2
+
+className="animate-spin"
+
+/>
+
+Evaluating...
+
+</>
+
+
+:
+
+<>
+
+<Send/>
+
+Submit Answer
+
+</>
+
+
+}
+
+
+
+</button>
+
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+
+
+
+
+
+
+
+{/* Feedback */}
+
+
+
+
+{
+
+feedback &&
+
+
+<AnimatedCard>
+
+
+<div className="bg-white rounded-3xl shadow-xl p-8 mt-8">
+
+
+<div className="flex gap-3 items-center">
+
+
+<CheckCircle
+
+className="text-green-600"
+
+/>
+
+
+<h2 className="text-2xl font-bold">
+
+AI Feedback
+
+</h2>
+
+
+</div>
+
+
+
+
+
+<div className="mt-6 whitespace-pre-wrap text-gray-700">
+
+
+{feedback}
+
+
+</div>
+
+
+
+
+
+<div className="flex items-center gap-3 mt-8 bg-yellow-50 p-5 rounded-xl">
+
+
+<Star
+
+className="text-yellow-500"
+
+/>
+
+
+<div>
+
+
+<p className="font-semibold">
+
+Interview Score
+
+</p>
+
+
+<p className="text-3xl font-bold">
+
+{score || "Evaluated"}
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+</div>
+
+
+</AnimatedCard>
+
+
+}
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</PageTransition>
+
+
+)
 
 }
